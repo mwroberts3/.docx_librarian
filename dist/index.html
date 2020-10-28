@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document Librarian</title>
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <section id="start-1">
+      <div class="fullscreen-container">
+        <div class="centered-container">
+          <div class="inner-content">
+            <h1>
+              Document Librarian<span style="font-size: 0.85rem"
+                >&nbsp;v1.0</span
+              >
+            </h1>
+            <div>
+              <div style="padding-top: 10px"></div>
+              <label for="file-upload" class="custom-file-upload">
+                Choose File
+                <input id="file-upload" type="file" />
+              </label>
+            </div>
+            <nav>
+              <p>
+                <a href="#">docs</a>
+              </p>
+              <p>
+                <a href="#">GitHub</a>
+              </p>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings-2">
+      <div class="centered-container">
+        <div class="file-name"></div>
+        <div class="inner-content">
+          <h2>Settings</h2>
+          <button class="use-template">Doc Uses D.L. Template</button>
+          <button class="no-template">No Template / Raw Search</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="dl-template-settings-3a">
+      <div class="centered-container">
+        <div class="inner-content">
+          <div class="file-name"></div>
+          <h2>Sort-By</h2>
+          <div class="template-sort-options">
+            <label>Label</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="label"
+              value="label"
+            />
+            <label>Title</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="title"
+              value="title"
+            />
+            <label>Date</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="date"
+              value="date"
+            />
+          </div>
+          <button>Submit</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="raw-search-3b">
+      <div class="inner-content">
+        <div class="centered-container">
+          <div class="file-name"></div>
+          <h2>Enter search term</h2>
+          <input type="text" />
+          <button>Submit</button>
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.13/mammoth.browser.min.js"
+      integrity="sha512-MgTq65w4ttra/oQoGpe/N5X105Ip9SfxxbbIcZcLiRiAx3UGoOF8EbufYDxPElROItHDSIO7ibdybhi4nzsNBg=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
