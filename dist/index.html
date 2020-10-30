@@ -25,7 +25,7 @@
             </div>
             <nav>
               <p>
-                <a href="#">docs</a>
+                <a href="#">Docs</a>
               </p>
               <p>
                 <a href="#">GitHub</a>
@@ -40,17 +40,24 @@
       <div class="centered-container">
         <div class="file-name"></div>
         <div class="inner-content">
-          <h2>Settings</h2>
-          <button class="use-template">Doc Uses D.L. Template</button>
-          <button class="no-template">No Template / Raw Search</button>
+          <h2>Template Select</h2>
+          <div>
+            <button class="use-template">Doc Uses D.L. Template</button>
+            <button class="no-template">No Template / Raw Search</button>
+          </div>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
         </div>
       </div>
     </section>
 
     <section id="dl-template-settings-3a">
       <div class="centered-container">
+        <div class="file-name"></div>
         <div class="inner-content">
-          <div class="file-name"></div>
           <h2>Sort-By</h2>
           <div class="template-sort-options">
             <label>Label</label>
@@ -74,21 +81,35 @@
               id="date"
               value="date"
             />
+            <button>Submit</button>
           </div>
-          <button>Submit</button>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
         </div>
       </div>
     </section>
 
     <section id="raw-search-3b">
-      <div class="inner-content">
-        <div class="centered-container">
-          <div class="file-name"></div>
+      <div class="centered-container">
+        <div class="file-name"></div>
+        <div class="inner-content">
           <h2>Enter search term</h2>
-          <input type="text" />
-          <button>Submit</button>
+          <input id="initial-search-term" type="text" />
+          <button id="initial-search-button">Submit</button>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
         </div>
       </div>
+    </section>
+
+    <section id="document-display">
+      <div class="document-display"></div>
     </section>
 
     <script

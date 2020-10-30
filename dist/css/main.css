@@ -37,6 +37,15 @@ button,
 #file-upload {
   display: none; }
 
+nav {
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.75rem; }
+  nav :first-child {
+    padding-left: 10px; }
+
 .fullscreen-container {
   display: flex;
   flex-direction: column;
@@ -61,6 +70,16 @@ button,
   width: 450px;
   height: 120px; }
 
+.document-display {
+  width: 90vw;
+  height: 90vh;
+  background: #ddd;
+  border-radius: 10px;
+  box-shadow: 5px 5px #333;
+  display: none;
+  padding: 10px 0 0 30px;
+  overflow: auto; }
+
 .file-name {
   position: absolute;
   top: 10px;
@@ -74,14 +93,6 @@ button,
   margin-left: -250px; }
   #start-1 h1 {
     padding-bottom: 20px; }
-  #start-1 nav {
-    padding-top: 20px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    font-size: 0.75rem; }
-    #start-1 nav :first-child {
-      padding-left: 10px; }
 
 #settings-2 {
   position: absolute;
@@ -90,6 +101,10 @@ button,
   margin-left: -250px;
   transform: translateX(100vw);
   transition: transform 0.5s ease; }
+  #settings-2 .inner-content div {
+    width: 98.75%;
+    display: flex;
+    justify-content: space-between; }
   #settings-2.show {
     transform: translateX(0); }
   #settings-2 h2 {
@@ -104,6 +119,8 @@ button,
   transition: transform 0.5s ease; }
   #dl-template-settings-3a.show {
     transform: translateX(0); }
+  #dl-template-settings-3a h2 {
+    padding-bottom: 20px; }
 
 #raw-search-3b {
   position: absolute;
@@ -114,3 +131,14 @@ button,
   transition: transform 0.5s ease; }
   #raw-search-3b.show {
     transform: translateX(0); }
+  #raw-search-3b h2 {
+    padding-bottom: 20px; }
+  #raw-search-3b input[type="text"] {
+    padding: 11px;
+    border-radius: 5px;
+    border: 1px solid #999; }
+
+#document-display {
+  position: absolute;
+  top: 5vh;
+  left: 5vh; }
