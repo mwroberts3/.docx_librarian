@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="./css/main.css" />
+    <title>Document Librarian</title>
+  </head>
+  <body>
+    <section id="start-1">
+      <div class="fullscreen-container">
+        <div class="centered-container" draggable="true">
+          <div class="inner-content">
+            <h1>
+              Document Librarian<span style="font-size: 0.85rem"
+                >&nbsp;v1.0</span
+              >
+            </h1>
+            <div>
+              <div style="padding-top: 10px"></div>
+              <label for="file-upload" class="custom-file-upload">
+                Choose File
+                <input id="file-upload" type="file" />
+              </label>
+            </div>
+            <nav>
+              <p>
+                <a id="docs-link" href="#">Docs</a>
+              </p>
+              <p>
+                <a href="#">GitHub</a>
+              </p>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="settings-2">
+      <div class="centered-container">
+        <div class="file-name"></div>
+        <div class="inner-content">
+          <h2>Template Select</h2>
+          <div>
+            <button class="use-template">Doc Uses D.L. Template</button>
+            <button class="no-template">No Template / Raw Search</button>
+          </div>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section id="dl-template-settings-3a">
+      <div class="centered-container">
+        <div class="file-name"></div>
+        <div class="inner-content">
+          <h2>Sort-By</h2>
+          <div class="template-sort-options">
+            <label>Label</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="label"
+              value="label"
+            />
+            <label>Title</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="title"
+              value="title"
+            />
+            <label>Date</label>
+            <input
+              type="radio"
+              name="template-search-option"
+              id="date"
+              value="date"
+            />
+            <button>Submit</button>
+          </div>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section id="raw-search-3b">
+      <div class="centered-container">
+        <div class="file-name"></div>
+        <div class="inner-content">
+          <h2>Enter search term</h2>
+          <input id="initial-search-term" type="text" />
+          <button id="initial-search-button">Submit</button>
+          <input id="case-sensitive" type="checkbox">&nbsp;<small>Case Sensitive</small></button>
+          <nav>
+            <p>
+              <a href="index.html">Restart</a>
+            </p>
+          </nav>
+        </div>
+      </div>
+    </section>
+
+    <section id="document-display">
+      <div class="options-and-display">
+          <input id="new-search" type="text" placeholder="new search" />
+          <button class="new-search-btn"><i class="fas fa-search"></i></button>
+          <div class="search-stats-container">
+            <div class="searched-word"></div>
+            <div class="search-stats"></div>
+          </div>
+          <div>
+            <div class="file-name displayed"></div>
+            <div><a href="index.html">Restart</a></div>
+          </div>
+      </div>
+      <div class="document-content">&nbsp;</div>
+    </section>
+
+    <section id="dl-docs">
+      <div class="documentation-container">
+        <p>
+          <li>Formatting and using with template</li>
+          <li>Using with out template</li>
+        </p>
+
+        <!-- Using with template -->
+        <div class="documentation-section">
+          <h3>Formatting and using with template</h3>
+          <p>
+            To get the most out of Document Librarian, you'll want to load a
+            .docx file that uses this app's standard template.
+          </p>
+          <p>
+            To do that is simple, just start every new entry in the document
+            file with:
+          </p>
+          <p>
+            <li><strong>LABEL:</strong></li>
+            <li><strong>DATE:</strong></li>
+            <li><strong>TITLE:</strong></li>
+            <li><strong>CONTENT:</strong></li>
+          </p>
+          <p>
+            This will allow the algorithm to accurately search and pull sections
+            of the document based on their content.
+          </p>
+        </div>
+
+        <!-- Using without template -->
+        <div class="documentation-section">
+          <h3>Using without template</h3>
+          <p>
+            Document Librarian can also be used on an unformatted document as a
+            simple search tool.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.13/mammoth.browser.min.js"
+      integrity="sha512-MgTq65w4ttra/oQoGpe/N5X105Ip9SfxxbbIcZcLiRiAx3UGoOF8EbufYDxPElROItHDSIO7ibdybhi4nzsNBg=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script.js"></script>
+  </body>
+</html>
