@@ -46,6 +46,9 @@ nav {
   nav :first-child {
     padding-left: 10px; }
 
+::placeholder {
+  color: #aaa; }
+
 .fullscreen-container {
   display: flex;
   flex-direction: column;
@@ -77,7 +80,7 @@ nav {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   padding: 10px 0 0 30px;
-  overflow-x: hidden;
+  overflow: auto;
   font-size: 1rem; }
 
 .options-and-display {
@@ -158,6 +161,15 @@ nav {
     position: static;
     font-size: 1rem; }
 
+.small-box-input {
+  padding: 11px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  width: 230px;
+  margin-right: 70px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
 #start-1 {
   position: absolute;
   top: 200px;
@@ -172,7 +184,7 @@ nav {
   left: 50%;
   margin-left: -250px;
   transform: translateX(100vw);
-  transition: transform 0.5s ease; }
+  transition: transform 1.75s ease; }
   #settings-2 .inner-content div {
     width: 98.75%;
     display: flex;
@@ -183,7 +195,7 @@ nav {
     padding-bottom: 20px; }
 
 #dl-template-settings-3a {
-  position: absolute;
+  position: relative;
   top: 200px;
   left: 50%;
   margin-left: -250px;
@@ -191,8 +203,10 @@ nav {
   transition: transform 0.5s ease; }
   #dl-template-settings-3a.show {
     transform: translateX(0); }
-  #dl-template-settings-3a h2 {
-    padding-bottom: 20px; }
+  #dl-template-settings-3a .centered-container {
+    height: 600px;
+    width: 800px;
+    overflow: auto; }
 
 #raw-search-3b {
   position: absolute;
@@ -205,9 +219,19 @@ nav {
     transform: translateX(0); }
   #raw-search-3b h2 {
     padding-bottom: 20px; }
+  #raw-search-3b #initial-search-button {
+    position: absolute;
+    left: 212px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0; }
+  #raw-search-3b .case-sensitive-container {
+    position: absolute;
+    top: 130px;
+    left: 27px; }
   #raw-search-3b input[type="text"] {
     padding: 11px;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     border: 1px solid #999; }
 
 #document-display {

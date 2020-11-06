@@ -11,7 +11,6 @@ fileNameDisplay = document.querySelectorAll(".file-name");
 
 const initialSearchBtn = document.getElementById("initial-search-button"),
 caseSensitivity = document.getElementById('case-sensitive');
-
 let initialSearchTerm = document.getElementById("initial-search-term");
 
 const documentDisplay = document.getElementById("document-display"),
@@ -24,12 +23,17 @@ newSearchBtn = document.querySelector(".new-search-btn");
 const docsLink = document.getElementById('docs-link'),
 dlDocs = document.getElementById('dl-docs');
 
+const categoryList = document.querySelector(".category-list");
+
 let sessionDoc = '';
+let reader;
 
 // Event listeners
+// Load .docx file
 docsLink.addEventListener('click', () => dlDocs.style.display = 'block');
 
 fileUpload.addEventListener("change", () => {
+    loadDocx(fileUpload.files[0]);
     section2.classList.add("show");
 
     fileNameDisplay.forEach((section) => {
@@ -37,10 +41,14 @@ fileUpload.addEventListener("change", () => {
     });
 });
 
-useTemplateBtn.addEventListener('click', () => section3a.classList.add("show"));
+// Use template
+useTemplateBtn.addEventListener('click', () => {
+    section3a.classList.add("show")
+    createCategoryList();
+});
 
+// No template
 noTemplateBtn.addEventListener('click', () => section3b.classList.add("show"));
-        // let searchedDoc = doc.split('LABEL');
 
 initialSearchBtn.addEventListener("click", () => {
     // Make sure search term is entered
@@ -49,8 +57,7 @@ initialSearchBtn.addEventListener("click", () => {
     } else {
         initialSearchTerm = initialSearchTerm.value;
         documentDisplay.style.display = 'block';
-        documentContent.textContent = 'loading...';
-        loadDocx(fileUpload.files[0]);
+        rawSearchDoc(sessionDoc, initialSearchTerm);
     }
 });
 
@@ -60,27 +67,57 @@ newSearchBtn.addEventListener("click", () => {
 
 // Functions
 function loadDocx(file) {
-    const reader = new FileReader();
+    reader = new FileReader();
     reader.readAsArrayBuffer(file);
     // console.log(reader.readyState);
 
     // Make sure reader is ready before displaying
-    const readyStateCheck = setInterval(() => {
-        if (reader.readyState === 2) {
+    setTimeout(() => {
             let arrayBuffer = reader.result;
-    
+        
             mammoth.convertToHtml({arrayBuffer:arrayBuffer}).then((result) => {
                 sessionDoc = result.value;
-                rawSearchDoc(result.value, initialSearchTerm);
+                // console.log(result.value);
             });
     
-            mammoth.extractRawText({arrayBuffer:arrayBuffer}).then((result) => {
-                // console.log(result.value)
-            });
+            // mammoth.extractRawText({arrayBuffer:arrayBuffer}).then((result) => {
+            //     // console.log(result.value)
+            // });
             
-            clearInterval(readyStateCheck);
-        }            
-    }, 100)
+        }, 100)         
+}
+
+function createCategoryList() {
+    let list = sessionDoc.split("<strong>LABEL:</strong>");
+    let labelList = [];
+    let tempSplit = [];
+    let seperatedCategories = [];
+    // console.log(list[1]);
+
+    list.forEach((row) => {
+        console.log(row[0], row[1], row[2], row[3], row[4])
+    })
+
+    console.log(list);
+
+
+    // let tempSplit = list[1].split("CONTENT:");
+    // tempSplit[0] = "<strong>LABEL" + tempSplit[0];
+
+
+
+    for (let i = 0; i < list.length; i++){
+            tempSplit = list[i].split("CONTENT:");
+            tempSplit[0] = "<strong>LABEL:</strong>" + tempSplit[0];
+
+            seperatedCategories.push(tempSplit);
+    }
+
+    seperatedCategories.forEach((row, index) => {
+        if (index !== 0) {
+            categoryList.innerHTML += `${row[0]}<br>`;
+        }
+    })
 }
 
 function rawSearchDoc(doc, searchTerm) {
