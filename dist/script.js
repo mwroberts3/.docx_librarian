@@ -1,6 +1,6 @@
 // DOM elements and variables
 const section2 = document.getElementById("settings-2"),
-section3a = document.getElementById("dl-template-settings-3a"),
+section3a = document.getElementById("dl-category-select-3a"),
 section3b = document.getElementById("raw-search-3b");
 
 const useTemplateBtn = document.querySelector(".use-template"),
@@ -23,7 +23,10 @@ newSearchBtn = document.querySelector(".new-search-btn");
 const docsLink = document.getElementById('docs-link'),
 dlDocs = document.getElementById('dl-docs');
 
-const categoryList = document.querySelector(".category-list");
+const categoryList = document.querySelector(".category-list"),
+nextBtn = document.getElementById("next-button"),
+retreivedEntries = document.getElementById('retreived-entries'),
+collectedEntriesContainer = document.querySelector(".collected-entries-container");
 
 let sessionDoc = '';
 let reader;
@@ -90,32 +93,108 @@ function loadDocx(file) {
 function createCategoryList() {
     let list = sessionDoc.split("<strong>LABEL:</strong>");
     let labelList = [];
+    let slicedLabelList = [];
+    let uniqueLabelList = [];
     let tempSplit = [];
     let seperatedCategories = [];
+    let selectedCategories = [];
+    let seperatedSelectedCategories = [];
     // console.log(list[1]);
 
-    list.forEach((row) => {
-        console.log(row[0], row[1], row[2], row[3], row[4])
+    console.log(list[0].length);
+    // Remove any empty entries
+    list = list.filter(row => row.length > 10)
+
+    for(let i = 0; i < list.length; i++) {
+        for(let j = 0; j < 100; j++){
+            if (list[i][j] !== '<'){
+                labelList[i] += list[i][j]
+        } else {
+            break;
+        }
+    }}
+
+    labelList.forEach(label => {
+        // console.log(label.slice(10));
+        label = label.slice(10);
+        label = label[0].toUpperCase() + label.slice(1);
+        slicedLabelList.push(label);
     })
 
-    console.log(list);
+    uniqueLabelList = [... new Set(slicedLabelList)];
+    uniqueLabelList = uniqueLabelList.sort();
 
+    console.log(uniqueLabelList);
 
-    // let tempSplit = list[1].split("CONTENT:");
-    // tempSplit[0] = "<strong>LABEL" + tempSplit[0];
+    // console.log(labelList);
+    // console.log(list);
 
-
-
+    // Split each entry in list into two parts, the content headers and the actual content
     for (let i = 0; i < list.length; i++){
-            tempSplit = list[i].split("CONTENT:");
-            tempSplit[0] = "<strong>LABEL:</strong>" + tempSplit[0];
+        tempSplit = list[i].split("CONTENT:");
+        tempSplit[0] = "<strong>LABEL:</strong>" + tempSplit[0];
+        tempSplit[2] = slicedLabelList[i];
 
-            seperatedCategories.push(tempSplit);
+        seperatedCategories.push(tempSplit);
     }
 
-    seperatedCategories.forEach((row, index) => {
-        if (index !== 0) {
-            categoryList.innerHTML += `${row[0]}<br>`;
+    // console.log(seperatedCategories);
+
+    uniqueLabelList.forEach((label) => {
+        categoryList.innerHTML += `<div><input class="category-checkbox"type="checkbox">&nbsp;${label}</div>`;
+    })
+
+    categoryList.addEventListener("click", (e) => {
+        if (!e.target.checked){
+            selectedCategories = selectedCategories.filter(catName => catName !== (e.target.parentElement.textContent).trim());
+        } else if (e.target.tagName === "INPUT")
+        {
+            selectedCategories.push((e.target.parentElement.textContent).trim());
+        } 
+        console.log("selected categories", selectedCategories);
+    })
+    
+    nextBtn.addEventListener("click", () => {
+        if (selectedCategories.length < 1){
+            window.alert("please select at least one category");
+        } else {
+            for (let i = 0; i < selectedCategories.length; i++) {
+                // console.log(seperatedCategories[i][2]);
+                for (let j = 0; j < seperatedCategories.length; j++) {
+                    if (selectedCategories[i].toLowerCase() === seperatedCategories[j][2].toLowerCase()) {
+                        console.log(selectedCategories[i].toLowerCase(), seperatedCategories[j][2].toLowerCase())
+
+                        seperatedSelectedCategories.push(seperatedCategories[j]);
+                    }
+                }
+            }
+
+            createDragandDropUI(seperatedSelectedCategories, selectedCategories);
+        }
+    }) 
+}
+
+function createDragandDropUI(seperatedSelectedCategories, selectedCategories){
+    retreivedEntries.style.display = 'block';
+    
+    // console.log(selectedCategories);
+    // console.log(seperatedSelectedCategories);
+
+    seperatedSelectedCategories.forEach((entry) => {
+        collectedEntriesContainer.innerHTML += `
+        <div class="entry-header" draggable>
+            ${entry[0]}
+            </strong><p class="show-entry-content">Show Content</p>
+            <div class="hidden-entry-content">
+                ${entry[1]}            
+            </div>
+        </div>
+        `;
+    })
+
+    collectedEntriesContainer.addEventListener("click", (e) => {
+        if(e.target.classList.contains("show-entry-content")){
+            e.target.nextElementSibling.classList.toggle("show-content");
         }
     })
 }
