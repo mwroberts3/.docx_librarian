@@ -26,10 +26,10 @@
             </div>
             <nav>
               <p>
-                <a id="docs-link" href="#">Docs</a>
+                <a id="docs-link" href="#"><span class="menu-text">Docs</span></a>
               </p>
               <p>
-                <a href="#">GitHub</a>
+                <a href="#"><span class="menu-text">GitHub</span></a>
               </p>
             </nav>
           </div>
@@ -48,7 +48,7 @@
           </div>
           <nav>
             <p>
-              <a href="index.html">Restart</a>
+              <a href="index.html"><span class="menu-text">Restart</span></a>
             </p>
           </nav>
         </div>
@@ -64,7 +64,7 @@
          <button id="next-button">Next</button>
           <nav>
             <p>
-              <a href="index.html">Restart</a>
+              <a href="index.html"><span class="menu-text">Restart</span></a>
             </p>
           </nav>
         </div>
@@ -73,7 +73,14 @@
 
     <section id="retreived-entries">
       <div class="options-and-display">
-        <button>Select Different Categories</button>
+        <div>
+          <button id="select-different-categories-btn">Select Different Categories</button>
+          <button id="save-as-new-docx-file">Save As .docx File <small><em><strong>beta</strong></em></small></button>
+        </div>
+        <div>
+          <div class="file-name displayed"></div>
+          <div><a href="index.html"><span class="menu-text">Restart</span></a></div>
+        </div>
       </div>
       <div class="collected-entries-container">
 
@@ -93,7 +100,7 @@
           </div>
           <nav>
             <p>
-              <a href="index.html">Restart</a>
+              <a href="index.html"><span class="menu-text">Restart</span></a>
             </p>
           </nav>
         </div>
@@ -110,7 +117,7 @@
           </div>
           <div>
             <div class="file-name displayed"></div>
-            <div><a href="index.html">Restart</a></div>
+            <div><a href="index.html"><span class="menu-text">Restart</span></a></div>
           </div>
       </div>
       <div class="document-content">&nbsp;</div>
@@ -156,12 +163,13 @@
         </div>
       </div>
     </section>
-
+    <script src="https://unpkg.com/docx@5.0.2/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.13/mammoth.browser.min.js"
       integrity="sha512-MgTq65w4ttra/oQoGpe/N5X105Ip9SfxxbbIcZcLiRiAx3UGoOF8EbufYDxPElROItHDSIO7ibdybhi4nzsNBg=="
       crossorigin="anonymous"
     ></script>
-    <script src="script.js"></script>
+    <script src="bundle.js"></script>
   </body>
 </html>

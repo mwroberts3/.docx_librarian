@@ -1,10 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0; }
 
 body {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-family: "DM Sans", sans-serif;
   position: relative;
   min-height: 100vh;
   min-width: 100vh;
@@ -29,7 +30,8 @@ button,
   border: 1px solid #999;
   border-radius: 5px;
   background: #eee;
-  font-size: 0.95rem; }
+  font-size: 0.95rem;
+  font-family: "DM Sans", sans-serif; }
   button:hover,
   .custom-file-upload:hover {
     background: whitesmoke; }
@@ -48,6 +50,41 @@ nav {
 
 ::placeholder {
   color: #aaa; }
+
+.file-name {
+  position: absolute;
+  top: 10px;
+  right: 25px;
+  font-size: 0.9rem; }
+  .file-name.displayed {
+    position: static;
+    font-size: 1rem; }
+
+.small-box-input {
+  padding: 11px;
+  border-radius: 5px;
+  border: 1px solid #999;
+  width: 230px;
+  margin-right: 70px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.show-content {
+  opacity: 1 !important;
+  max-height: 500px !important;
+  transition: all 0.5s ease; }
+
+.hide-content {
+  display: none !important; }
+
+.menu-text {
+  font-weight: bold; }
+
+.selected-to-drag {
+  background: #888 !important; }
+
+.drag-over {
+  margin-left: 20px !important; }
 
 .fullscreen-container {
   display: flex;
@@ -153,33 +190,9 @@ nav {
     display: flex;
     flex-direction: column; }
 
-.file-name {
-  position: absolute;
-  top: 10px;
-  right: 25px;
-  font-size: 0.9rem; }
-  .file-name.displayed {
-    position: static;
-    font-size: 1rem; }
-
-.small-box-input {
-  padding: 11px;
-  border-radius: 5px;
-  border: 1px solid #999;
-  width: 230px;
-  margin-right: 70px;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0; }
-
-.show-content {
-  display: block !important; }
-
-.hide-content {
-  display: none !important; }
-
 #start-1 {
   position: absolute;
-  top: 200px;
+  top: 25%;
   left: 50%;
   margin-left: -250px; }
   #start-1 h1 {
@@ -187,7 +200,7 @@ nav {
 
 #settings-2 {
   position: absolute;
-  top: 200px;
+  top: 25%;
   left: 50%;
   margin-left: -250px;
   transform: translateX(100vw);
@@ -202,14 +215,15 @@ nav {
     padding-bottom: 20px; }
 
 #dl-category-select-3a {
-  position: relative;
-  top: 200px;
+  position: absolute;
+  top: 50%;
   left: 50%;
+  margin: auto;
   margin-left: -250px;
-  transform: translateX(100vw);
+  transform: translate(100vw, -50%);
   transition: transform 0.5s ease; }
   #dl-category-select-3a.show {
-    transform: translateX(0); }
+    transform: translate(0, -50%); }
   #dl-category-select-3a .inner-content {
     min-height: 120px;
     padding: 50px 20px;
@@ -219,8 +233,9 @@ nav {
 
 #retreived-entries {
   position: absolute;
-  top: 5vh;
+  top: 50%;
   left: 5vw;
+  transform: translateY(-50%);
   display: none;
   box-shadow: 5px 5px #333;
   border-radius: 10px; }
@@ -249,11 +264,14 @@ nav {
         top: 10px;
         cursor: pointer; }
       #retreived-entries .collected-entries-container .entry-header .hidden-entry-content {
-        display: none; }
+        opacity: 0;
+        max-height: 0;
+        overflow-x: auto;
+        transition: all 0.2s ease; }
 
 #raw-search-3b {
   position: absolute;
-  top: 200px;
+  top: 25%;
   left: 50%;
   margin-left: -250px;
   transform: translateX(100vw);
@@ -263,6 +281,7 @@ nav {
   #raw-search-3b h2 {
     padding-bottom: 20px; }
   #raw-search-3b #initial-search-button {
+    height: 39px;
     position: absolute;
     left: 212px;
     border-bottom-left-radius: 0;
