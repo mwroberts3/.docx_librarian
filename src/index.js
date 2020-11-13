@@ -64,6 +64,7 @@ useTemplateBtn.addEventListener('click', () => {
 collectedEntriesContainer.addEventListener("click", (e) => {
     if(e.target.classList.contains("show-entry-content")){
         e.target.nextElementSibling.classList.toggle("show-content");
+        e.target.textContent === 'Show Content' ? e.target.textContent = 'Hide Content' : e.target.textContent = 'Show Content';
     }
 })
 
@@ -258,8 +259,14 @@ function dragEvents() {
         
         // Drag start
         draggable.addEventListener('dragstart', () => {
-            dragged = draggable;
+            dragged = draggable; 
             dragged.classList.add('selected-to-drag');
+        })
+        draggable.addEventListener('mousedown', () => {
+            draggable.classList.add('selected-to-drag');
+        })
+        draggable.addEventListener('mouseup', () => {
+            draggable.classList.remove('selected-to-drag');
         })
 
         // Drag over
@@ -269,20 +276,23 @@ function dragEvents() {
         
         // Drag drop
         draggable.addEventListener('drop', () => {
-
-            draggable.classList.toggle('drag-over')
+            let tempIndex;
 
             dragged.classList.remove('selected-to-drag');
-  
+            
+            tempIndex = dragged.dataset.index;
+
             dragged.dataset.index = draggable.dataset.index;
 
-            for (let i = 0; i < draggables.length; i++) {
-                if (draggables[i] !== dragged) {
-                    if (draggables[i].dataset.index >= dragged.dataset.index) {
-                        draggables[i].dataset.index++
+            if (dragged.dataset.index - tempIndex < 0) {
+                for (let i = 0; i < draggables.length; i++) {
+                    if (draggables[i] !== dragged) {
+                            draggables[i].dataset.index++
                     }
                 }
-            }
+            }  else {
+                dragged.dataset.index++;
+            }  
 
             reorganizeCategories(draggables);
         })
@@ -300,8 +310,13 @@ function reorganizeCategories(draggables) {
     draggables = Array.from(draggables);
     
     draggables.sort((a,b) => a.dataset.index - b.dataset.index)
-    
-    
+
+    draggables.forEach((draggable, index) => {
+        draggable.dataset.index = index;
+        draggable.classList.remove('drag-over');
+        draggable.classList.remove('selected-to-drag');
+    })
+        
     collectedEntriesContainer.innerHTML = '';
 
     draggables.forEach((entry) => {

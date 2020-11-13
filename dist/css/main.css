@@ -81,10 +81,11 @@ nav {
   font-weight: bold; }
 
 .selected-to-drag {
-  background: #888 !important; }
+  background: #aaa !important;
+  transition: background 0.1s linear; }
 
 .drag-over {
-  margin-left: 20px !important; }
+  margin-left: 5px !important; }
 
 .fullscreen-container {
   display: flex;

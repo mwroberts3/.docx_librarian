@@ -65,6 +65,7 @@ useTemplateBtn.addEventListener('click', function () {
 collectedEntriesContainer.addEventListener("click", function (e) {
   if (e.target.classList.contains("show-entry-content")) {
     e.target.nextElementSibling.classList.toggle("show-content");
+    e.target.textContent === 'Show Content' ? e.target.textContent = 'Hide Content' : e.target.textContent = 'Show Content';
   }
 });
 selectDifCatBtn.addEventListener('click', function () {
@@ -234,6 +235,12 @@ function dragEvents() {
     draggable.addEventListener('dragstart', function () {
       dragged = draggable;
       dragged.classList.add('selected-to-drag');
+    });
+    draggable.addEventListener('mousedown', function () {
+      draggable.classList.add('selected-to-drag');
+    });
+    draggable.addEventListener('mouseup', function () {
+      draggable.classList.remove('selected-to-drag');
     }); // Drag over
 
     draggable.addEventListener('dragover', function (e) {
@@ -241,16 +248,19 @@ function dragEvents() {
     }); // Drag drop
 
     draggable.addEventListener('drop', function () {
-      draggable.classList.toggle('drag-over');
+      var tempIndex;
       dragged.classList.remove('selected-to-drag');
+      tempIndex = dragged.dataset.index;
       dragged.dataset.index = draggable.dataset.index;
 
-      for (var i = 0; i < draggables.length; i++) {
-        if (draggables[i] !== dragged) {
-          if (draggables[i].dataset.index >= dragged.dataset.index) {
+      if (dragged.dataset.index - tempIndex < 0) {
+        for (var i = 0; i < draggables.length; i++) {
+          if (draggables[i] !== dragged) {
             draggables[i].dataset.index++;
           }
         }
+      } else {
+        dragged.dataset.index++;
       }
 
       reorganizeCategories(draggables);
@@ -270,6 +280,11 @@ function reorganizeCategories(draggables) {
   draggables = Array.from(draggables);
   draggables.sort(function (a, b) {
     return a.dataset.index - b.dataset.index;
+  });
+  draggables.forEach(function (draggable, index) {
+    draggable.dataset.index = index;
+    draggable.classList.remove('drag-over');
+    draggable.classList.remove('selected-to-drag');
   });
   collectedEntriesContainer.innerHTML = '';
   draggables.forEach(function (entry) {
