@@ -104,7 +104,7 @@ nextBtn.addEventListener("click", function () {
   }
 });
 saveAsNewDocxFileBtn.addEventListener("click", function () {
-  saveAsDocxFile();
+  saveAsDocxFile(collectedEntriesContainer, seperatedSelectedCategories);
 }); // No template
 
 noTemplateBtn.addEventListener('click', function () {
@@ -174,7 +174,7 @@ function createCategoryList() {
 
   for (var _i = 0; _i < list.length; _i++) {
     tempSplit = list[_i].split("CONTENT:");
-    tempSplit[0] = "<strong>LABEL:</strong>" + tempSplit[0];
+    tempSplit[0] = "<p><strong>LABEL:</strong> ".concat(tempSplit[0], "</p>");
     tempSplit[2] = slicedLabelList[_i];
     seperatedCategories.push(tempSplit);
   }
@@ -293,7 +293,64 @@ function reorganizeCategories(draggables) {
   dragEvents();
 }
 
-function saveAsDocxFile() {// TODO
+function saveAsDocxFile(collectedEntriesContainer) {
+  // Extract raw text
+  var textContentContainer = [];
+  var entriesForDocx = collectedEntriesContainer.querySelectorAll('.selected-entry');
+  console.log(entriesForDocx);
+  entriesForDocx.forEach(function (entry, index1) {
+    textContentContainer.push([]);
+    entry.childNodes.forEach(function (child, index2) {
+      if (child.tagName === 'P' && index2 < 4) {
+        textContentContainer[index1].push(child.textContent.split(' '));
+      } else if (index2 === 4) {
+        textContentContainer[index1].push('CONTENT:');
+      } else if (child.tagName === 'DIV') {
+        textContentContainer[index1].push(child.textContent);
+      }
+    });
+  });
+  console.log(textContentContainer);
+  var doc = new docx.Document();
+
+  for (var i = 0; i < textContentContainer.length; i++) {
+    doc.addSection({
+      children: [new docx.Paragraph({
+        children: [new docx.TextRun({
+          text: textContentContainer[i][0][0],
+          bold: true
+        }), new docx.TextRun({
+          text: " ".concat(textContentContainer[i][0][2])
+        })]
+      }), new docx.Paragraph({
+        children: [new docx.TextRun({
+          text: textContentContainer[i][1][0],
+          bold: true
+        }), new docx.TextRun({
+          text: " ".concat(textContentContainer[i][1][1])
+        })]
+      }), new docx.Paragraph({
+        children: [new docx.TextRun({
+          text: textContentContainer[i][2][0],
+          bold: true
+        }), new docx.TextRun({
+          text: " ".concat(textContentContainer[i][2][1])
+        })]
+      }), new docx.Paragraph({
+        children: [new docx.TextRun({
+          text: textContentContainer[i][3],
+          bold: true
+        })]
+      }), new docx.Paragraph(textContentContainer[i][4])]
+    });
+  } // Package and download new docx
+
+
+  docx.Packer.toBlob(doc).then(function (blob) {
+    console.log(blob);
+    saveAs(blob, "example.docx");
+    console.log("Document created successfully");
+  });
 }
 
 function rawSearchDoc(doc, searchTerm) {

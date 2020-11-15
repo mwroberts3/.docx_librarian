@@ -227,10 +227,19 @@ nav {
     transform: translate(0, -50%); }
   #dl-category-select-3a .inner-content {
     min-height: 120px;
-    padding: 50px 20px;
+    padding: 10px 20px;
     height: 100%; }
     #dl-category-select-3a .inner-content div {
-      padding: 7px 0; }
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0 7px; }
+    #dl-category-select-3a .inner-content .category-list {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start; }
+      #dl-category-select-3a .inner-content .category-list div {
+        padding: 7px 0; }
 
 #retreived-entries {
   position: absolute;
