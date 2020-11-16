@@ -28,7 +28,8 @@ nextBtn = document.getElementById("next-button"),
 retreivedEntries = document.getElementById('retreived-entries'),
 collectedEntriesContainer = document.querySelector(".collected-entries-container"),
 selectDifCatBtn = document.getElementById("select-different-categories-btn"),
-saveAsNewDocxFileBtn = document.getElementById("save-as-new-docx-file");
+saveAsNewDocxFileBtn = document.getElementById("save-as-new-docx-file"),
+newFileName = document.getElementById("save-as-new-file-input");
 
 let dragStartIndex;
 let dragged;
@@ -40,6 +41,8 @@ let reader;
 let seperatedCategories = [];
 let seperatedSelectedCategories = [];
 let selectedCategories = [];
+let slicedLabelList = [];
+let uniqueLabelList = [];
 
 
 // Event listeners
@@ -49,6 +52,7 @@ docsLink.addEventListener('click', () => dlDocs.style.display = 'block');
 fileUpload.addEventListener("change", () => {
     loadDocx(fileUpload.files[0]);
     section2.classList.add("show");
+
 
     fileNameDisplay.forEach((section) => {
         section.textContent = `${fileUpload.files[0].name}`;
@@ -75,15 +79,28 @@ selectDifCatBtn.addEventListener('click', () => {
 })
 
 categoryList.addEventListener("click", (e) => {
-    if (!e.target.checked){
+    if (!e.target.checked && !e.target.classList.contains('category-checkbox-choose-all')){
         selectedCategories = selectedCategories.filter(catName => catName !== (e.target.nextElementSibling.textContent).trim());
-    } else if (e.target.tagName === "INPUT")
+    } else if (e.target.tagName === "INPUT" && !e.target.classList.contains("category-checkbox-choose-all") && e.target.checked)
     {
         selectedCategories.push((e.target.nextElementSibling.textContent).trim());
-    } 
-    console.log("selected categories", selectedCategories);
+    } else if (e.target.classList.contains('category-checkbox-choose-all')) {
+
+        if (!e.target.checked) {
+            categoryList.childNodes.forEach(child => {
+                child.firstChild.checked = false;
+            })
+            selectedCategories = [];
+        } else {
+            categoryList.childNodes.forEach(child => {
+                child.firstChild.checked = true;
+                if (child.childNodes[2]){
+                    selectedCategories.push(child.childNodes[2].textContent);
+                }
+            })
+        }
+    }
     selectedCategories = [...new Set(selectedCategories)];
-    console.log("selected categories", selectedCategories);
 })
 
 nextBtn.addEventListener("click", () => {
@@ -91,11 +108,8 @@ nextBtn.addEventListener("click", () => {
         window.alert("please select at least one category");
     } else {
         for (let i = 0; i < selectedCategories.length; i++) {
-            // console.log(seperatedCategories[i][2]);
             for (let j = 0; j < seperatedCategories.length; j++) {
                 if (selectedCategories[i] === seperatedCategories[j][2]) {
-                    console.log(selectedCategories[i].toLowerCase(), seperatedCategories[j][2].toLowerCase())
-
                     seperatedSelectedCategories.push(seperatedCategories[j]);
                 }
             }
@@ -105,7 +119,13 @@ nextBtn.addEventListener("click", () => {
 }) 
 
 saveAsNewDocxFileBtn.addEventListener("click", () => {
-    saveAsDocxFile(collectedEntriesContainer, seperatedSelectedCategories);
+    if (!newFileName.value) {
+        window.alert('please enter filename')
+    } else {
+        saveAsDocxFile(collectedEntriesContainer, seperatedSelectedCategories);
+    }
+
+
 })
 
 // No template
@@ -130,7 +150,6 @@ newSearchBtn.addEventListener("click", () => {
 function loadDocx(file) {
     reader = new FileReader();
     reader.readAsArrayBuffer(file);
-    // console.log(reader.readyState);
 
     // Make sure reader is ready before displaying
     setTimeout(() => {
@@ -138,26 +157,26 @@ function loadDocx(file) {
         
             mammoth.convertToHtml({arrayBuffer:arrayBuffer}).then((result) => {
                 sessionDocHTML = result.value;
-                // console.log(result.value);
             });
     
             mammoth.extractRawText({arrayBuffer:arrayBuffer}).then((result) => {
                 sessionRawText = result.value;
-                // console.log(sessionRawText);
             });
             
-        }, 100)         
+        }, 1000)    
 }
 
 function createCategoryList() {
-    let list = sessionDocHTML.split("<strong>LABEL:</strong>");
+    let list1 = sessionDocHTML.split("<strong>LABEL:</strong> ");
+    let list2 = sessionDocHTML.split("<strong>LABEL: </strong>");
     let labelList = [];
-    let slicedLabelList = [];
-    let uniqueLabelList = [];
     let tempSplit = [];
+
+    let list = [...list1, ...list2];
 
     // Remove any empty entries
     list = list.filter(row => row.length > 10)
+    list = list.filter(row => row[0] !== "<");
 
     for(let i = 0; i < list.length; i++) {
         for(let j = 0; j < 100; j++){
@@ -168,9 +187,9 @@ function createCategoryList() {
         }
     }}
 
+
     labelList.forEach(label => {
-        // console.log(label.slice(10));
-        label = label.slice(10); 
+        label = label.slice(9); 
         label = label[0].toUpperCase() + label.slice(1);
         slicedLabelList.push(label);
     })
@@ -217,25 +236,16 @@ function createCategoryList() {
         }
     });
 
-    console.log("uniqueLabelList", uniqueLabelList);
-
-    console.log("sliced Label List", slicedLabelList);
-
-    // console.log(uniqueLabelList);
-    // console.log(labelList);
-    // console.log(list);  
-    // console.log(seperatedCategories);
+    categoryList.innerHTML  += `<div><input class="category-checkbox-choose-all" type="checkbox">&nbsp;SELECT ALL`
 
     uniqueLabelList.forEach((row) => {
         categoryList.innerHTML += `<div><input class="category-checkbox"type="checkbox">&nbsp;<span>${row.catName}</span> (${row.count})</div>`;
     })
+
 }
 
 function createDragandDropUI(seperatedSelectedCategories){
     retreivedEntries.style.display = 'block';
-    
-    // console.log(selectedCategories);
-    console.log(seperatedSelectedCategories);
 
     seperatedSelectedCategories.forEach((entry, index) => {
         collectedEntriesContainer.innerHTML += `
@@ -331,7 +341,6 @@ function saveAsDocxFile(collectedEntriesContainer) {
     // Extract raw text
     let textContentContainer = [];
     const entriesForDocx = collectedEntriesContainer.querySelectorAll('.selected-entry');
-    console.log(entriesForDocx);
 
     entriesForDocx.forEach((entry, index1) => {
         textContentContainer.push([])
@@ -346,8 +355,6 @@ function saveAsDocxFile(collectedEntriesContainer) {
         })
     })
 
-    console.log(textContentContainer);
-
     const doc = new docx.Document();
 
     for (let i = 0; i < textContentContainer.length; i++) {
@@ -360,7 +367,7 @@ function saveAsDocxFile(collectedEntriesContainer) {
                             bold: true,
                         }),
                         new docx.TextRun({
-                            text: ` ${textContentContainer[i][0][2]}`,
+                            text: ` ${textContentContainer[i][0].splice(1).join(" ")}`,
                         }),
                     ]
                 }),
@@ -371,7 +378,7 @@ function saveAsDocxFile(collectedEntriesContainer) {
                             bold: true,
                         }),
                         new docx.TextRun({
-                            text: ` ${textContentContainer[i][1][1]}`,
+                            text: ` ${textContentContainer[i][1].splice(1).join(" ")}`,
                         }),
                     ]
                 }),
@@ -382,7 +389,7 @@ function saveAsDocxFile(collectedEntriesContainer) {
                             bold: true,
                         }),
                         new docx.TextRun({
-                            text: ` ${textContentContainer[i][2][1]}`,
+                            text: ` ${textContentContainer[i][2].splice(1).join(" ")}`,
                         }),
                     ]
                 }),
@@ -402,9 +409,7 @@ function saveAsDocxFile(collectedEntriesContainer) {
 
     // Package and download new docx
     docx.Packer.toBlob(doc).then(blob => {
-        console.log(blob);
-        saveAs(blob, "example.docx");
-        console.log("Document created successfully");
+        saveAs(blob, `${newFileName.value}`);
     });
 
 }
@@ -418,8 +423,6 @@ function rawSearchDoc(doc, searchTerm) {
     if(doc.search(searchTerm.toLowerCase()) === -1 && doc.search(searchTerm.toUpperCase()) === -1){
         window.alert('term not found in document');
     } else {
-        console.log(searchTerm.length);
-        console.log(doc.length);
 
         // counts the number of exact matches and regular matches
         for(let i = 0; i < doc.length; i++) {

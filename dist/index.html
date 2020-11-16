@@ -5,17 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/main.css" />
-    <title>Document Librarian</title>
+    <title>.docx Librarian</title>
   </head>
   <body>
+        <!-- Minimum Screen Size notice -->
+        <div class="screen-size-notice">
+          <p>
+            Thank you for your interest in .docx Librarian. 
+          </p>
+          <p>This web application is designed for screen sizes that are at least 1024px wide. A patch for mobile responsiveness is in the works.</p>
+        </div>
+    
     <section id="start-1">
       <div class="fullscreen-container">
         <div class="centered-container" draggable="true">
           <div class="inner-content">
             <h1>
-              Document Librarian<span style="font-size: 0.85rem"
-                >&nbsp;v0.9.0</span
-              >
+              .docx Librarian
             </h1>
             <div>
               <div style="padding-top: 10px"></div>
@@ -67,13 +73,16 @@
          <button id="next-button">Next</button>
         </div>
       </div>
-    </section> 
+    </section>
 
     <section id="retreived-entries">
       <div class="options-and-display">
         <div>
           <button id="select-different-categories-btn">Select Different Categories</button>
-          <button id="save-as-new-docx-file">Save As .docx File <small><em><strong>beta</strong></em></small></button>
+          <div class="save-as-new-file-container">
+            <input id="save-as-new-file-input" type="text" placeholder="Enter File Name">
+            <button id="save-as-new-docx-file">Save As .docx File <small><em><strong>beta</strong></em></small></button>
+          </div>
         </div>
         <div>
           <div class="file-name displayed"></div>
@@ -84,6 +93,7 @@
 
       </div>
     </section>
+
 
     <section id="raw-search-3b">
       <div class="centered-container">
@@ -123,20 +133,20 @@
 
     <section id="dl-docs">
       <div class="documentation-container">
-        <p>
-          <li>Formatting and using with template</li>
-          <li>Using with out template</li>
-        </p>
+        <div style="text-align: right; margin-right: 20px"><a href="index.html"><span class="menu-text">Home</span></a></div>
+        
+        <h1>.docx Librarian <small>v1.0.0</small></h1>
 
         <!-- Using with template -->
         <div class="documentation-section">
-          <h3>Formatting and using with template</h3>
+          <h2>Formatting and using with template</h2>
           <p>
-            To get the most out of Document Librarian, you'll want to load a
+            To get the most out of .docx Librarian, you'll want to load a
             .docx file that uses this app's standard template.
           </p>
+          <br>
           <p>
-            To do that is simple, just start every new entry in the document
+            To do that is simple, just start every new entry in the .docx
             file with:
           </p>
           <p>
@@ -145,22 +155,41 @@
             <li><strong>TITLE:</strong></li>
             <li><strong>CONTENT:</strong></li>
           </p>
+          <br>
           <p>
             This will allow the algorithm to accurately search and pull sections
             of the document based on their content.
           </p>
+          <br>
+          <p>
+            <em>
+              In order for the document w/ template to be processed correctly, make sure that </em><strong>LABEL:</strong><em> is bolded with exactly one space between the colon and the first letter of the label.
+            </em> If the label, and any of the subsequent headers are improperly formatted the results will be incorrect and/or incomplete.
+          </p>
+          <div class="inner-documentation-section">
+            <h3>Saving As New docx file</h3>
+            <p>
+              Thanks to the docx.js library, selected categories can be saved as their own new docx file which can subsequently be search and trimmed. 
+            </p>
+            <p>
+              The order in which the categories are listed will determine the order they appear on the saved document.
+            </p>
+          </div>
+          <hr>
         </div>
 
         <!-- Using without template -->
         <div class="documentation-section">
-          <h3>Using without template</h3>
+          <h2>Using without template</h2>
           <p>
-            Document Librarian can also be used on an unformatted document as a
-            simple search tool.
+            .docx Librarian can also be used on an unformatted .docx file as a
+            simple search tool. The search functionality is bare-bones as of version 1.0.0, but will be built up in subsequent patches.
           </p>
         </div>
       </div>
     </section>
+
+
     <script src="https://unpkg.com/docx@5.0.2/build/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
     <script
@@ -168,6 +197,6 @@
       integrity="sha512-MgTq65w4ttra/oQoGpe/N5X105Ip9SfxxbbIcZcLiRiAx3UGoOF8EbufYDxPElROItHDSIO7ibdybhi4nzsNBg=="
       crossorigin="anonymous"
     ></script>
-    <script src="bundle.js"></script>
+    <script src="/src/index.js"></script>
   </body>
 </html>
